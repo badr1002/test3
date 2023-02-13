@@ -1,6 +1,6 @@
- import "./App.css";
+ import "./App.scss";
 import { useState } from "react";
-import QrReader from "react-qr-reader";
+import {QrReader} from "react-qr-reader";
 
 const App = () => {
   const [selected, setSelected] = useState("environment");
@@ -23,7 +23,7 @@ const App = () => {
     console.error(err);
   };
   return (
-    <div className="App">
+    <div className="Scanner">
       <h1>Hello CodeSandbox</h1>
       <h2>
         Last Scan:
@@ -48,8 +48,12 @@ const App = () => {
             delay={1000}
             onError={handleError}
             onScan={handleScan}
-            // chooseDeviceId={()=>selected}
+            onResult={(res)=>console.log(res)}
+            chooseDeviceId={()=>selected}
             style={{ width: "300px" }}
+            videoContainerStyle={{ with: '20rem' }}
+            videoStyle={{ width: '20rem' }}
+           
           />
         </>
       )}
@@ -58,5 +62,6 @@ const App = () => {
     </div>
   );
 };
+
 
 export default App;

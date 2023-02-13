@@ -1,67 +1,49 @@
- import "./App.scss";
-import { useState } from "react";
-import {QrReader} from "react-qr-reader";
+import React, { Component } from 'react'
+import QrReader from 'modern-react-qr-reader'
 
-const App = () => {
-  const [selected, setSelected] = useState("environment");
-  const [startScan, setStartScan] = useState(false);
-  const [loadingScan, setLoadingScan] = useState(false);
-  const [data, setData] = useState("");
+class App extends Component {
+  constructor(props) {
+    super(props);
 
-  const handleScan = async (scanData) => {
-    setLoadingScan(true);
-    console.log(`loaded data data`, scanData);
-    if (scanData && scanData !== "") {
-      console.log(`loaded >>>`, scanData);
-      setData(scanData);
-      setStartScan(false);
-      setLoadingScan(false);
-      // setPrecScan(scanData);
+    this.state = {
+      result: 'No result'
     }
-  };
-  const handleError = (err) => {
-    console.error(err);
-  };
-  return (
-    <div className="Scanner">
-      <h1>Hello CodeSandbox</h1>
-      <h2>
-        Last Scan:
-        {selected}
-      </h2>
 
-      <button
-        onClick={() => {
-          setStartScan(!startScan);
-        }}
-      >
-        {startScan ? "Stop Scan" : "Start Scan"}
-      </button>
-      {startScan && (
-        <>
-          <select onChange={(e) => setSelected(e.target.value)}>
-            <option value={"environment"}>Back Camera</option>
-            <option value={"user"}>Front Camera</option>
-          </select>
-          <QrReader
-            facingMode={selected}
-            delay={1000}
-            onError={handleError}
-            onScan={handleScan}
-            onResult={(res)=>console.log(res)}
-            chooseDeviceId={()=>selected}
-            style={{ width: "300px" }}
-            videoContainerStyle={{ with: '20rem' }}
-            videoStyle={{ width: '20rem' }}
-           
-          />
-        </>
-      )}
-      {loadingScan && <p>Loading</p>}
-      {data !== "" && <p>{data}</p>}
-    </div>
-  );
-};
+    this.handleError = this.handleError.bind(this);
+    this.handleScan = this.handleScan.bind(this);
+  }
 
+  handleScan = data => {
+    if (data) {
+      this.state.result = data;
+      console.log(this.state.result);
+      this.setState({ result: data });
+      alert('')
+    }
+  }
+
+  handleError = err => {
+    console.error(err)
+  }
+
+  render() {
+    return (
+      <div style={{
+        position: 'relative',
+        left: "40% ",
+        
+      }}>
+        <QrReader
+          delay={300}
+          facingMode={"environment"}
+          onError={this.handleError}
+          onScan={this.handleScan}
+          style={{ width: '20%',  }}
+         />
+        <p>{this.state.result}</p>
+      </div>
+    )
+  }
+}
 
 export default App;

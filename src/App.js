@@ -24,10 +24,10 @@ const App = () => {
     }}>
       <QrReader
         delay={300}
-        facingMode={"environment"}
+        facingMode={"user"}
         onError={handleError}
         onScan={handleScan}
-        style={{ width: '20%', }}
+        style={{ width: '40%' }}
       />
       <p>{result}</p>
     </div>
